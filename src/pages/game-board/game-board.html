@@ -1,0 +1,116 @@
+<!--
+  Generated template for the GameBoardPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar>
+    <ion-title></ion-title>
+    <ion-buttons end>
+      <button (click)="showMenu=true" ion-button icon-only clear>
+        <img src="./assets/imgs/menuBtn.png">
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+  <img class="counterImg" *ngIf="showCount" src="./assets/imgs/count.gif">
+
+  <ion-grid class="gameBoard mt-2">
+    <img class="animated bounceInDown" style="margin-top: -2em;" src="./assets/imgs/appLogo1.png">
+    <ion-row class="mt-5">
+      <ion-col [class.jello]="i%2==0" class="animated" col-4 text-center *ngFor="let box of boxes; index as i">
+        <div class="anItem animated" (click)="openBox(box)">
+          <img [class.zoomIn]="!box.isCovered" class="animated" [src]="box.boxImage">
+          <img *ngIf="box.isCovered" class="animated flipInY coverImage" [src]="box.coverImg">
+        </div>
+      </ion-col>
+    </ion-row>
+    <div text-center>
+      <button color="lighter" class="scoreBtn mt-1" ion-button clear>{{score}}</button>
+    </div>
+  </ion-grid>
+
+</ion-content>
+
+<div *ngIf="showMenu" class="menuPopup">
+  <div class="innerDiv">
+    <img (click)="showMenu=false" class="closeBtn" src="./assets/imgs/Close_Box_Red.png">
+    <img src="./assets/imgs/cash.png">
+    <img src="./assets/imgs/coins.png">
+    <img src="./assets/imgs/gems.png">
+    <img src="./assets/imgs/energy.png">
+  </div>
+  <ion-row>
+    <ion-col col-6>
+      <button (click)="showConfirm=true; showMenu=false" ion-button block clear>
+        <img src="./assets/imgs/reloadBtn.png">
+      </button>
+    </ion-col>
+    <ion-col col-6>
+      <button (click)="showMenu=false" ion-button block clear>
+        <img src="./assets/imgs/playBtn1.png">
+      </button>
+    </ion-col>
+  </ion-row>
+</div>
+
+<div *ngIf="showConfirm" class="menuPopup">
+  <div class="innerDiv" padding>
+    <p class="confirmationTxt">Are you sure you want to quit and reload new game?</p>
+  </div>
+  <ion-row class="confirmationBtns">
+    <ion-col col-6>
+      <button (click)="reloadGame()" ion-button block clear>
+        <img src="./assets/imgs/close.png">
+      </button>
+    </ion-col>
+    <ion-col col-6>
+      <button (click)=" showConfirm=false" ion-button block clear>
+        <img src="./assets/imgs/playBtn.png">
+      </button>
+    </ion-col>
+  </ion-row>
+</div>
+
+
+<div *ngIf="levelCleared" class="menuPopup">
+  <div class="innerDiv" padding>
+    <img class="animated bounceInDown" src="./assets/imgs/levelCleared.png">
+    <img class="animated rubberBand" style="width: 70px;" src="./assets/imgs/congrats.png"> <br />
+    <img class="animated heartBeat" src="./assets/imgs/points.png">
+    <ion-row class="confirmationBtns animated bounceInUp mt-0">
+      <ion-col col-6>
+        <button (click)="reloadGame()" ion-button block clear>
+          <img src="./assets/imgs/close.png">
+        </button>
+      </ion-col>
+      <ion-col col-6>
+        <button (click)="resetGame(); levelCleared=false" ion-button block clear>
+          <img src="./assets/imgs/playBtn.png">
+        </button>
+      </ion-col>
+    </ion-row>
+  </div>
+</div>
+
+<div *ngIf="levelFailed" class="menuPopup">
+  <div class="innerDiv" padding style="background: none !important;">
+    <img style="width: 200px;" class="animated heartBeat" src="./assets/imgs/lost.jpg">
+    <ion-row class="confirmationBtns animated bounceInUp mt-0">
+      <ion-col col-6>
+        <button (click)="reloadGame()" ion-button block clear>
+          <img src="./assets/imgs/close.png">
+        </button>
+      </ion-col>
+      <ion-col col-6>
+        <button (click)="resetGame(); levelFailed=false" ion-button block clear>
+          <img src="./assets/imgs/playBtn.png">
+        </button>
+      </ion-col>
+    </ion-row>
+  </div>
+</div>

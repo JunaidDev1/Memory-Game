@@ -1,0 +1,26 @@
+page-home {
+  ion-content {
+    .mainBoard {
+      padding: 0px 16px 0px 16px;
+      background: url("../assets/imgs/mainBg.png") center no-repeat;
+      background-size: contain;
+      height: 50vh;
+
+      .easyBtn {
+        background: url("/assets/imgs/easyBtn.png") center no-repeat;
+        object-fit: cover;
+        height: 10.5vh;
+      }
+      .mediumBtn {
+        background: url("/assets/imgs/mediumBtn.png") center no-repeat;
+        object-fit: cover;
+        height: 10.5vh;
+      }
+      .hardBtn {
+        background: url("/assets/imgs/hardBtn.png") center no-repeat;
+        object-fit: cover;
+        height: 10.5vh;
+      }
+    }
+  }
+}
