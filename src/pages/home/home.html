@@ -13,9 +13,9 @@
     </div>
     <div class="mainBoard center mt-3">
       <img src="./assets/imgs/levelSelect.png">
-      <button (click)="toGameBoard()" block ion-button clear class="easyBtn"></button>
-      <button block ion-button clear class="mediumBtn"></button>
-      <button block ion-button clear class="hardBtn"></button>
+      <button (click)="toGameBoard('easy')" block ion-button clear class="easyBtn"></button>
+      <button (click)="toGameBoard('medium')" block ion-button clear class="mediumBtn"></button>
+      <button (click)="toGameBoard('hard')" block ion-button clear class="hardBtn"></button>
     </div>
     <p text-center>
       <img src="./assets/imgs/points.png">

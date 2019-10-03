@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { GameLevelsProvider } from '../../providers/game-levels/game-levels';
 import { HomePage } from '../home/home';
 
 /**
@@ -22,92 +23,26 @@ export class GameBoardPage {
   levelCleared = false;
   levelFailed = false;
   showCount = false;
+  public boxes = [];
 
-  boxes = [
-    {
-      boxImage: "./assets/imgs/matches/apple.png",
-      name: "apple",
-      isCovered: false,
-      coverImg: "./assets/imgs/mainBg.png"
-    },
-    {
-      boxImage: "./assets/imgs/matches/cat.png",
-      name: "cat",
-      isCovered: false,
-      coverImg: "./assets/imgs/mainBg.png"
-    },
-    {
-      boxImage: "./assets/imgs/matches/footbal.png",
-      name: "footbal",
-      isCovered: false,
-      coverImg: "./assets/imgs/mainBg.png"
-    },
-    {
-      boxImage: "./assets/imgs/matches/dragon.png",
-      name: "dragon",
-      isCovered: false,
-      coverImg: "./assets/imgs/mainBg.png"
-    },
-    {
-      boxImage: "./assets/imgs/matches/flower.png",
-      name: "flower",
-      isCovered: false,
-      coverImg: "./assets/imgs/mainBg.png"
-    },
-    {
-      boxImage: "./assets/imgs/matches/apple.png",
-      name: "apple",
-      isCovered: false,
-      coverImg: "./assets/imgs/mainBg.png"
-    },
-    {
-      boxImage: "./assets/imgs/matches/shirt.png",
-      name: "shirt",
-      isCovered: false,
-      coverImg: "./assets/imgs/mainBg.png"
-    },
-    {
-      boxImage: "./assets/imgs/matches/dragon.png",
-      name: "dragon",
-      isCovered: false,
-      coverImg: "./assets/imgs/mainBg.png"
-    },
-    {
-      boxImage: "./assets/imgs/matches/cat.png",
-      name: "cat",
-      isCovered: false,
-      coverImg: "./assets/imgs/mainBg.png"
-    },
-    {
-      boxImage: "./assets/imgs/matches/footbal.png",
-      name: "footbal",
-      isCovered: false,
-      coverImg: "./assets/imgs/mainBg.png"
-    },
-    {
-      boxImage: "./assets/imgs/matches/shirt.png",
-      name: "shirt",
-      isCovered: false,
-      coverImg: "./assets/imgs/mainBg.png"
-    },
-    {
-      boxImage: "./assets/imgs/matches/flower.png",
-      name: "flower",
-      isCovered: false,
-      coverImg: "./assets/imgs/mainBg.png"
-    },
-  ]
 
   constructor(
     public navCtrl: NavController,
-    public navParams: NavParams) {
+    public navParams: NavParams,
+    public service: GameLevelsProvider) {
+    this.boxes = service.selectedLevel;
     this.resetGame();
   }
 
 
   resetGame() {
+    this.levelCleared = false;
+    this.levelFailed = false;
+    this.score = 0;
+    this.currentOpened = "";
+    this.flipped = [];
     this.shuffle(this.boxes);
-    for (var i = 0; i < 12; i++) {
+    for (var i = 0; i < this.boxes.length; i++) {
       this.boxes[i].isCovered = false;
     }
     setTimeout(() => {
@@ -120,14 +55,9 @@ export class GameBoardPage {
   }
 
   hideBoxes() {
-    for (var i = 0; i < 12; i++) {
+    for (var i = 0; i < this.boxes.length; i++) {
       this.boxes[i].isCovered = true;
     }
-    this.levelCleared = false;
-    this.levelFailed = false;
-    this.score = 0;
-    this.currentOpened = "";
-    this.flipped = [];
   }
 
 
@@ -141,10 +71,7 @@ export class GameBoardPage {
 
 
   openBox(box) {
-    if (box.isCovered == false) {
-      return;
-    }
-    else {
+    if (box.isCovered == true) {
       box.isCovered = false;
       this.flipped.push(box);
       if (this.flipped.length == 1 || this.currentOpened == "") {
@@ -152,13 +79,15 @@ export class GameBoardPage {
       }
       else {
         if (this.currentOpened.name == box.name) {
-          if (this.flipped.length < 12) {
+          if (this.flipped.length < this.boxes.length) {
             this.score = this.score + 10;
             this.currentOpened = "";
           }
           else {
             this.score = this.score + 10;
-            this.levelCleared = true;
+            setTimeout(() => {
+              this.levelCleared = true;
+            }, 1000);
           }
         }
         else {
@@ -170,7 +99,7 @@ export class GameBoardPage {
     }
   }
 
-  reloadGame() {
+  exitGame() {
     this.navCtrl.setRoot(HomePage);
   }
 

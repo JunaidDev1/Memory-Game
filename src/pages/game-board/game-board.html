@@ -6,6 +6,11 @@
 -->
 <ion-header>
   <ion-navbar>
+    <ion-buttons start>
+      <button (click)="resetGame()" ion-button clear icon-only>
+        <img src="./assets/imgs/reloadBtn.png">
+      </button>
+    </ion-buttons>
     <ion-title></ion-title>
     <ion-buttons end>
       <button (click)="showMenu=true" ion-button icon-only clear>
@@ -64,7 +69,7 @@
   </div>
   <ion-row class="confirmationBtns">
     <ion-col col-6>
-      <button (click)="reloadGame()" ion-button block clear>
+      <button (click)="exitGame()" ion-button block clear>
         <img src="./assets/imgs/close.png">
       </button>
     </ion-col>
@@ -84,7 +89,7 @@
     <img class="animated heartBeat" src="./assets/imgs/points.png">
     <ion-row class="confirmationBtns animated bounceInUp mt-0">
       <ion-col col-6>
-        <button (click)="reloadGame()" ion-button block clear>
+        <button (click)="exitGame()" ion-button block clear>
           <img src="./assets/imgs/close.png">
         </button>
       </ion-col>
@@ -102,7 +107,7 @@
     <img style="width: 200px;" class="animated heartBeat" src="./assets/imgs/lost.jpg">
     <ion-row class="confirmationBtns animated bounceInUp mt-0">
       <ion-col col-6>
-        <button (click)="reloadGame()" ion-button block clear>
+        <button (click)="exitGame()" ion-button block clear>
           <img src="./assets/imgs/close.png">
         </button>
       </ion-col>
