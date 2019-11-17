@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { GameLevelsProvider } from '../../providers/game-levels/game-levels';
+import { NativeAudio } from '@ionic-native/native-audio';
 import { HomePage } from '../home/home';
+
 
 /**
  * Generated class for the GameBoardPage page.
@@ -29,11 +31,28 @@ export class GameBoardPage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    public service: GameLevelsProvider) {
+    public service: GameLevelsProvider,
+    private nativeAudio: NativeAudio) {
     this.boxes = service.selectedLevel;
     this.resetGame();
+    this.getSounds();
   }
 
+
+  getSounds() {
+    this.nativeAudio.preloadSimple('flipSound', 'assets/imgs/sounds/flip-sound.mp3').then(() => { })
+      .catch((e) => {
+        console.log(e);
+      })
+    this.nativeAudio.preloadSimple('win', 'assets/imgs/sounds/win-applause.mp3').then(() => { })
+      .catch((e) => {
+        console.log(e);
+      })
+    this.nativeAudio.preloadSimple('lost', 'assets/imgs/sounds/lose-laugh.mp3').then(() => { })
+      .catch((e) => {
+        console.log(e);
+      })
+  }
 
   resetGame() {
     this.levelCleared = false;
@@ -73,6 +92,10 @@ export class GameBoardPage {
   openBox(box) {
     if (box.isCovered == true) {
       box.isCovered = false;
+      this.nativeAudio.play('flipSound').then(() => { })
+        .catch((e) => {
+          console.log(e);
+        })
       this.flipped.push(box);
       if (this.flipped.length == 1 || this.currentOpened == "") {
         this.currentOpened = box;
@@ -88,10 +111,22 @@ export class GameBoardPage {
             setTimeout(() => {
               this.levelCleared = true;
             }, 1000);
+            this.nativeAudio.play('win').then(() => { })
+              .catch((e) => {
+                console.log(e);
+              })
           }
         }
         else {
           setTimeout(() => {
+            this.nativeAudio.play('lost').then(() => {
+              setTimeout(() => {
+                this.nativeAudio.stop('lost').then();
+              }, 2000);
+            })
+              .catch((e) => {
+                console.log(e);
+              })
             this.levelFailed = true;
           }, 1000);
         }
